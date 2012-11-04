@@ -447,9 +447,10 @@ When RAW, COMMENTARY is used as is."
             (replace-match ""))))
       (when (re-search-forward "[^ \t\n]" nil t)
         (delete-trailing-whitespace)
-        (write-region nil nil
-                      (expand-file-name (concat package-name "-readme.txt")
-                                        package-build-archive-dir))))))
+        (let ((coding-system-for-write buffer-file-coding-system))
+          (write-region nil nil
+                        (expand-file-name (concat package-name "-readme.txt")
+                                          package-build-archive-dir)))))))
 
 (defun pb/write-pkg-readme (commentary pkg-cwd package-name)
   "Write the package commentary to the *-readme.txt file.
